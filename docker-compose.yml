@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  lms:
+    container_name: lms
+    image: epoupon/lms
+    ports:
+      - "8080:5082"
+    volumes:
+      - lms-music-volume:/music:ro
+      - lms-data-volume:/var/lms
+  spotdl.js:
+    container_name: spotdl.js
+    image: spotdl.js
+    build:
+      context: .
+    ports:
+      - "8081:3000"
+    volumes:
+      - lms-music-volume:/home/node/music
+  file-browser:
+    container_name: file-browser
+    image: filebrowser/filebrowser
+    ports: 
+      - "8082:80"
+    volumes:
+      - lms-music-volume:/srv
+
+volumes:
+  lms-music-volume:
+    external: false
+  lms-data-volume:
+    external: false

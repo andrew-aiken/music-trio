@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Spotdl Portal</title>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<style>
+		fieldset {
+			background-color: #eeeeee;
+			}
+
+			legend {
+			background-color: gray;
+			color: white;
+			padding: 5px 10px;
+			}
+	</style>
+</head>
+
+<body>
+	<form class="form-horizontal" action="/spotdl" method="post">
+		<fieldset>
+
+			<!-- Form Name -->
+			<legend>Delete Folder</legend>
+
+			<!-- Select Basic -->
+			<div class="form-group">
+				<label class="col-md-1 control-label" for="selectbasic">Folder</label>
+				<div class="col-md-5">
+					<select id="selectbasic" name="selectbasic" class="form-control">
+						<%- formFolderOptions %>
+					</select>
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-1 control-label" for="textinput">URL</label>
+				<div class="col-md-5">
+					<input id="textinput" name="textinput" type="text" placeholder="https://"
+						class="form-control input-md" required="">
+
+				</div>
+			</div>
+
+			<!-- Button -->
+			<div class="form-group">
+				<label class="col-md-1 control-label" for="Submit_Create"></label>
+				<div class="col-md-1">
+					<button id="Submit_Create" name="Submit_Create" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+
+
+
+
+	<form class="form-horizontal" action="/delete" method="post">
+		<fieldset>
+
+			<!-- Form Name -->
+			<legend>Delete Folder</legend>
+
+			<!-- Select Multiple -->
+			<div class="form-group">
+				<label class="col-md-1 control-label" for="selectmultiple">Folder</label>
+				<div class="col-md-5">
+					<select id="selectmultiple" name="selectmultiple" class="form-control" multiple="multiple"
+						required="">
+						<%- formFolderOptions %>
+					</select>
+				</div>
+			</div>
+
+			<!-- Button -->
+			<div class="form-group">
+				<label class="col-md-1 control-label" for="Submit_Create"></label>
+				<div class="col-md-1">
+					<button id="Submit_Create" name="Submit_Create" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+
+
+
+
+	<form class="form-horizontal" action="/create" method="post">
+		<fieldset>
+
+			<!-- Form Name -->
+			<legend>Create Folder</legend>
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-1 control-label" for="selectsingle">Folder Name</label>
+				<div class="col-md-5">
+					<input id="selectsingle" name="selectsingle" type="text" placeholder="music"
+						class="form-control input-md" required="">
+
+				</div>
+			</div>
+
+			<!-- Button -->
+			<div class="form-group">
+				<label class="col-md-1 control-label" for="Submit_Create"></label>
+				<div class="col-md-1">
+					<button id="Submit_Create" name="Submit_Create" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+
+</body>
+
+</html>
