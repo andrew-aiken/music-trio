@@ -2,6 +2,23 @@
 
 Combination of LMS, file-browser, and spotdl music downloader
 
+## Installation
+
+Requires:
+- Git
+- Docker
+
+
+### Steps
+
+```bash
+git clone https://github.com/Mad-Chicken/music-trio.git
+
+cd music-trio
+
+docker-compose up -d
+```
+
 ## LMS
 
 LMS is a self-hosted music streaming software: access your music collection from anywhere using a web interface!
