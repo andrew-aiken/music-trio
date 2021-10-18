@@ -11,7 +11,17 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 
+function validURL(str) {
+	var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+		'((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+		'((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+		'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+		'(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+		'(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+	return !!pattern.test(str);
+}
 
+//////// Get / ////////
 app.get('/', (req, res) => {
 	var folderNames = execSync("ls -d /home/node/music/*/ || echo ''", { encoding: "utf8" });
 
@@ -30,6 +40,7 @@ app.get('/', (req, res) => {
 
 });
 
+//////// Post /spotdl ////////
 app.post('/spotdl', (req, res) => {
 	console.log("[|] Download started");
 	
@@ -37,23 +48,29 @@ app.post('/spotdl', (req, res) => {
 	var dir = req.body.selectbasic;
 
 	var rootDirectory = '/home/node/music/';
-
+	
 	if (dir.indexOf(rootDirectory) !== 0) {
-		console.log('[!] trying to sneak out of the web root');
+		console.log(`[!] Attempt for directory traversal: ${dir}`);
 	} else {
-		exec(`cd ${dir} && spotdl ${url}`, (error, stdout, stderr) => {
-			if (error) {
-				console.log(`[!] error: ${error.message}`);
-			}
-			if (stderr) {
-				console.log(`[!] stderr: ${stderr}`);
-			}
-			console.log(`[+] Downloading songs from ${url}`);
-		});
+		if (validURL(url)) {
+			exec(`cd ${dir} && spotdl ${url}`, (error, stdout, stderr) => {
+				if (error) {
+					console.log(`[!] error: ${error.message}`);
+				}
+				if (stderr) {
+					console.log(`[!] stderr: ${stderr}`);
+				}
+				console.log(`[+] Downloading songs from ${url}`);
+			});
+		} else {
+			console.log(`[!] Attempted url injection: ${url}`);
+		}
 	}
 	res.status(204).send();
 });
 
+
+//////// Post /delete ////////
 app.post('/delete', (req, res) => {
 	console.log(`[|] ${req.body.selectmultiple}`);
 
@@ -78,6 +95,7 @@ app.post('/delete', (req, res) => {
 	res.status(204).send();
 });
 
+//////// Post /create ////////
 app.post('/create', (req, res) => {
 	console.log(`[|] Attempting to create folder ${req.body.selectsingle}`);
 
@@ -85,7 +103,7 @@ app.post('/create', (req, res) => {
 	var filename = path.join(rootDirectory, req.body.selectsingle);
 
 	if (filename.indexOf(rootDirectory) !== 0) {
-		console.log('trying to sneak out of the web root?');
+		console.log(`[!] Attempt for directory traversal: ${req.body.selectsingle}`);
 	} else {
 		exec(`mkdir ${filename}`, (error, stdout, stderr) => {
 			if (error) {
