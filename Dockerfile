@@ -26,7 +26,7 @@ RUN npm install --save express body-parser ejs
 COPY app.js .
 COPY index.ejs .
 
-RUN chown -R node:node /home/node/
+RUN chown -R node:node /home/node/*
 USER node
 
 CMD ["node", "/home/node/app.js"]
