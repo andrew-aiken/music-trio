@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lms
+  labels:
+    app: lms
+spec:
+  containers:
+  - name: lms
+    image: epoupon/lms
+    volumeMounts:
+    - name: music-vault-storage
+      mountPath: "/music"
+    - name: data-store
+      mountPath: "/var/lms"
+    resources:
+      limits:
+        memory: "256Mi"
+        cpu: "500m"
+    ports:
+    - name: lms-web
+      containerPort: 5082
+      protocol: TCP
+  volumes:
+  - name: music-vault-storage
+    persistentVolumeClaim:
+      claimName: music-vault-pvc
+  - name: data-store
+    emptyDir: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: music-trio-entrypoint
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    app: lms
+  ports:
+  - port: 5082
+    targetPort: 5082
+    nodePort: 30000
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: filebrowser
+  labels:
+    app: filebrowser
+spec:
+  containers:
+  - name: filebrowser
+    image: filebrowser/filebrowser
+    volumeMounts:
+    - name: music-vault-storage
+      mountPath: "/srv"
+    resources:
+      limits:
+        memory: "256Mi"
+        cpu: "500m"
+    ports:
+    - name: filebrowser-web
+      containerPort: 80
+      protocol: TCP
+  volumes:
+  - name: music-vault-storage
+    persistentVolumeClaim:
+      claimName: music-vault-pvc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: filebrowser-entrypoint
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    app: filebrowser
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30001

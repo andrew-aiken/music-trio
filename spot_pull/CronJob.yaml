@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: spotdl-ds
+spec:
+  schedule: "*/30 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: spotdl-downloader
+            image: andrewaiken/spotdl-direct-downloader:v1.3
+            resources:
+              limits:
+                memory: 200Mi
+              requests:
+                cpu: 100m
+                memory: 200Mi
+            env:
+            - name: DOWNLOAD_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: spotdl-data-secret
+                  key: DOWNLOAD_PATH
+            - name: PLAYLIST
+              valueFrom:
+                secretKeyRef:
+                  name: spotdl-data-secret
+                  key: PLAYLIST
+            - name: OUTPUT_FORMAT
+              valueFrom:
+                secretKeyRef:
+                  name: spotdl-data-secret
+                  key: OUTPUT_FORMAT
+            volumeMounts:
+            - mountPath: "/spotdl-data"
+              name: music-vault-storage
+          volumes:
+          - name: music-vault-storage
+            persistentVolumeClaim:
+              claimName: music-vault-pvc
+          restartPolicy: OnFailure
