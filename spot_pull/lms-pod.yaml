@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lms
+  labels:
+    app: lms
+spec:
+  containers:
+    - name: lms
+      image: epoupon/lms
+      ports:
+        - name: lms-web
+          containerPort: 5082
+          protocol: TCP
+      resources:
+        limits:
+          cpu: 200m
+          memory: 400Mi
+        requests:
+          cpu: 100m
+          memory: 200Mi
+      volumeMounts:
+        - mountPath: "/music"
+          name: music-vault-storage
+        - mountPath: "/var/lms"
+          name: data-store
+  volumes:
+    - name: music-vault-storage
+      persistentVolumeClaim:
+        claimName: music-vault-pvc
+    - name: data-store
+      emptyDir: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: lms-NodePort
+spec:
+  type: NodePort
+  selector:
+    app: lms
+  ports:
+  - port: 30000
+    targetPort: 5082
