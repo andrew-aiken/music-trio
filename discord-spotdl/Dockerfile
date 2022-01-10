@@ -11,6 +11,7 @@ RUN npm init -y
 RUN npm install discord.js@13.5.1 @discordjs/voice
 RUN npm install ffmpeg fluent-ffmpeg @discordjs/opus sodium
 
-COPY . .
+COPY index.js ./
+COPY commands/ ./commands/
 
 CMD ["node","/home/node/index.js"]
