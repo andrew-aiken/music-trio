@@ -2,8 +2,8 @@ version: "3"
 
 services:
   discord.js:
-    container_name: spotdl-Sound
-    image: spotdl-Sound
+    container_name: spotdl-sound
+    image: spotdl-sound
     build:
       context: .
     ports:

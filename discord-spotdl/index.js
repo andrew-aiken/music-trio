@@ -77,36 +77,6 @@ client.on('messageCreate', message => {
 	}
 });
 
-
-
-// "SOUND SYSTEM"  --  "THE ZONE" //
-client.on('voiceStateUpdate', (oldMember, newMember) => {
-	if (newMember.member.user.bot) return;
-	if (oldMember.member.user.bot) return;
-	try {
-		if (newMember.channelId == "849641771024646195") {
-			const channel = client.channels.cache.get("849641771024646195");
-			const connection = DiscordVoice.joinVoiceChannel({
-				channelId: channel.id,
-				guildId: channel.guild.id,
-				adapterCreator: channel.guild.voiceAdapterCreator,
-			});
-			const player = DiscordVoice.createAudioPlayer();
-			const resource = DiscordVoice.createAudioResource('/home/node/commands/audio.mp3', { inputType: DiscordVoice.StreamType.OggOpus, inlineVolume: true });
-			resource.volume.setVolume(0.5);
-			player.play(resource);
-			connection.subscribe(player);
-		} else if (newMember.voiceChannel === undefined) {
-			if(oldMember.channelId == "849641771024646195") {
-				const channel = client.channels.cache.get("849641771024646195");
-				DiscordVoice.getVoiceConnection(channel.guild.id).disconnect();
-			}
-		}
-	} catch (error) {
-		console.log(error);
-	}
-});
-
 // Debug
 client.on("debug", function(info){
 	console.log(`debug -> ${info}`);
