@@ -8,14 +8,14 @@ module.exports = {
 	args: true,
 	usage: '<sound url>',
 	execute(message, args) {
-		exec("rm music/*", (err, stdout, stderr) => {
+		exec("rm /music/*", (err, stdout, stderr) => {
 			if (err) {
 				console.error(`exec error: ${err}`);
 				return;
 			}
 		});
 
-		exec(`spotdl --output /music ${args} && mv /music/* /music/song.mp3`, (err, stdout, stderr) => {
+		exec(`spotdl --output /music ${args} && rm -f .spotdl-cache spotdl-temp && sleep 1 && mv /music/* /music/song.mp3`, (err, stdout, stderr) => {
 			if (err) {
 				console.error(`exec error: ${err}`);
 				//NOTE DISPLAY MSG
