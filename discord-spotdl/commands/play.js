@@ -8,7 +8,7 @@ module.exports = {
 	args: true,
 	usage: '<sound url>',
 	execute(message, args) {
-		exec("rm /music/*", (err, stdout, stderr) => {
+		exec("rm -f /music/*", (err, stdout, stderr) => {
 			if (err) {
 				console.error(`exec error: ${err}`);
 				return;
