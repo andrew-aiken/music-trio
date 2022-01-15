@@ -2,7 +2,7 @@ const DiscordVoice = require('@discordjs/voice');
 module.exports = {
 	name: 'leave',
 	description: 'leave',
-	aliases: ['quit'],
+	aliases: ['stop','gtfo'],
     guildOnly: true,
 	args: false,
 	usage: '<>',

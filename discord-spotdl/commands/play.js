@@ -1,13 +1,17 @@
 const DiscordVoice = require('@discordjs/voice');
 const { exec } = require('child_process');
+const { syncBuiltinESMExports } = require('module');
 module.exports = {
 	name: 'play',
 	description: 'play',
-	aliases: ['sound'],
+	aliases: ['sound', 'song'],
     guildOnly: true,
 	args: true,
 	usage: '<sound url>',
 	execute(message, args) {
+
+		reactionVar = message.react('⏳');
+
 		exec("rm -f /music/*", (err, stdout, stderr) => {
 			if (err) {
 				console.error(`exec error: ${err}`);
@@ -18,10 +22,13 @@ module.exports = {
 		exec(`spotdl --output /music ${args} && rm -f .spotdl-cache spotdl-temp && sleep 1 && mv /music/* /music/song.mp3`, (err, stdout, stderr) => {
 			if (err) {
 				console.error(`exec error: ${err}`);
+				reactionVar = message.react('⚠');
 				//NOTE DISPLAY MSG
 				return;
 			}
 			console.log(stdout);
+
+			reactionVar = message.react('✅');
 
 			const channel = message.member.voice.channel;
 
@@ -37,5 +44,6 @@ module.exports = {
 			player.play(resource);
 			connection.subscribe(player);
 		});
+
 	}
 };

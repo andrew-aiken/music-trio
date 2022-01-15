@@ -5,7 +5,8 @@ const DiscordVoice = require('@discordjs/voice');
 const client = new Discord.Client({ intents: [
 	Discord.Intents.FLAGS.GUILDS,
 	Discord.Intents.FLAGS.GUILD_VOICE_STATES,
-	Discord.Intents.FLAGS.GUILD_MESSAGES ] });
+	Discord.Intents.FLAGS.GUILD_MESSAGES,
+	Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS ] });
 
 const prefix = process.env.DISCORD_PREFIX
 const token = process.env.DISCORD_TOKEN
@@ -77,10 +78,12 @@ client.on('messageCreate', message => {
 	}
 });
 
+/*
 // Debug
 client.on("debug", function(info){
 	console.log(`debug -> ${info}`);
 });
+*/
 
 // Warning
 client.on("warn", function(info){
