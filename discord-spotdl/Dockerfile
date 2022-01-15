@@ -5,7 +5,7 @@ EXPOSE 8123
 WORKDIR /home/node/
 RUN apt-get update && apt-get install wget tar python3-pip -y
 
-RUN wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+RUN wget https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-armhf-static.tar.xz
 RUN tar xfv $(ls | grep ffmpeg) -C /tmp
 RUN cp /tmp/"$(ls /tmp | grep ffmpeg)"/ffmpeg /usr/local/bin
 RUN rm $(ls | grep ffmpeg)
