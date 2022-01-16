@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  discord.js:
+    container_name: spotdl-sound
+    image: spotdl-sound
+    build:
+      context: .
+    ports:
+    - "8123"
+    restart: unless-stopped
+    environment:
+      DISCORD_PREFIX: "*"
+      DISCORD_TOKEN: ""
