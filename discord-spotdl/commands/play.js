@@ -40,9 +40,19 @@ module.exports = {
 
 			const player = DiscordVoice.createAudioPlayer();
 			const resource = DiscordVoice.createAudioResource('/music/song.mp3', { inputType: DiscordVoice.StreamType.OggOpus, inlineVolume: true });
+
+			
+
 			resource.volume.setVolume(0.5);
 			player.play(resource);
+			
 			connection.subscribe(player);
+
+			async function sleep() {
+				await new Promise(resolve => setTimeout(resolve, 360000));
+				connection.destroy();
+			}
+			sleep();
 		});
 
 	}
