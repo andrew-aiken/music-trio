@@ -17,12 +17,10 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 //When ready
 client.once('ready', () => {
 	console.log(`Logged in as '${client.user.tag}'\n`);
-	let d = new Date(Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
-	restartText = "Restarted" + " - " + ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
 	client.user.setPresence({
 		status: 'online',
 		activities: [{
-			name: restartText,
+			name: '*play <url>',
 			type: 'WATCHING',
 		}]
 	});
